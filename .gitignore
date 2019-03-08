@@ -1,0 +1,14 @@
+*.tar
+.idea/
+*.pth
+*.pyc
+*.gif
+*.pkl
+ckpts/
+*.json
+*.txt
+*.pyc
+__pycache__
+*.pl
+*.csv
+*.dat

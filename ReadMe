@@ -1,0 +1,9 @@
+The OFFICIAL steps for doing this!
+
+1. Finding the list of candidate CIDs using what ever method you want. Save this into a list
+
+2. Using CountVectorizer to get the list of countable words.
+
+3. Get a list of anchors
+
+4. Learn embeddings from it
