@@ -47,6 +47,6 @@ for s_key in tqdm.tqdm(emotion_keys, total=len(emotion_keys)):
     output_feat = text_model(input_id)
     key_embeddings[s_key] = output_feat.cpu().data.numpy()
 
-save2pickle('Embeddings/Key690_BN_transformed.pkl', key_embeddings)
+save2pickle('Embeddings/Key690_BN_transformed_l2_regularization.pkl', key_embeddings)
 
 print("Done")

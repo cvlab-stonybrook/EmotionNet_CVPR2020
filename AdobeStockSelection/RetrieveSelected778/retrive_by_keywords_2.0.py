@@ -1,4 +1,4 @@
-import requests, json, math, re, sys, argparse
+import requests, json, re, argparse
 
 class TextQueryMeta(object):
 
@@ -120,8 +120,7 @@ class TextQueryMeta(object):
 if __name__ == '__main__':
     import os
     import PyUtils.file_utils as file_utils
-    from PyUtils.pickle_utils import loadpickle
-    from EmotionTag.load_csv_annotations import load_verified
+    from Preps.Prep690Categories import load_verified
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--media', default='image', choices=['image', 'video'], type=str)

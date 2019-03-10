@@ -1,12 +1,12 @@
 from PyUtils.pickle_utils import loadpickle
-from EmotionTag.load_csv_annotations import load_verified
+from Preps.Prep690Categories import load_verified
 from Datasets.WebEmo import constants
 
 
 image_emotion_file = '/home/zwei/Dev/AttributeNet3/MtrukPrepData/EmotionTagging_100x10x5_data_v0/data/results_imagebased.txt.pkl'
 image_emotions = loadpickle(image_emotion_file)
 
-verified_emotion_file = '/home/zwei/Dev/AttributeNet3/EmotionTag/emotion_annotations_csv/Verify_20190210.csv'
+verified_emotion_file = '/home/zwei/Dev/AttributeNet3/Prep690Categories/emotion_annotations_csv/Verify_20190210.csv'
 verified_emotion_list, transer_dict, complete_list = load_verified(verified_emotion_file)
 
 image_raw_tags = loadpickle('/home/zwei/Dev/AttributeNet3/Datasets/WebEmo_AMT_Prep/data/test_url_tags_emotion25.pkl')

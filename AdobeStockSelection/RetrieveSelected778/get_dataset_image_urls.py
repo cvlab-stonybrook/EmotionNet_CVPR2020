@@ -10,8 +10,7 @@ import glob
 import os
 import tqdm
 from PyUtils.json_utils import load_json_list
-from AdobeStockTools.TagUtils import remove_hat
-from EmotionTag.load_csv_annotations import load_verified
+
 train_list = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/dataset_CIDs_742_train.pkl')
 val_list = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/dataset_CIDs_742_val.pkl')
 test_list = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/dataset_CIDs_742_test.pkl')

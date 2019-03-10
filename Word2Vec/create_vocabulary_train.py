@@ -11,7 +11,6 @@ import tqdm
 from PyUtils.pickle_utils import loadpickle, save2pickle
 from PyUtils.json_utils import load_json_list
 from PyUtils.dict_utils import string_list2dict
-from EmotionTag.load_csv_annotations import load_verified
 from nltk.corpus import wordnet
 from AdobeStockTools.TagUtils import remove_hat, has_digits
 from AdobeStockTools.AdobeStockUnitls import get_image_cid_from_url

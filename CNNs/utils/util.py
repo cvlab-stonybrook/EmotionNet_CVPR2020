@@ -143,6 +143,18 @@ def freeze_all_except_fc(model):
     model.fc.bias.requires_grad = True
     return model
 
+
+def freeze_all(model):
+    def dfs_freeze(model):
+        for name, child in model.named_children():
+            for param in child.parameters():
+                param.requires_grad = False
+            dfs_freeze(child)
+    dfs_freeze(model)
+    return model
+
+
+
 def unfreeze_all(model):
     def dfs_freeze(model):
         for name, child in model.named_children():
