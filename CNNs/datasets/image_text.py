@@ -12,10 +12,36 @@ from PyUtils.pickle_utils import loadpickle
 import numpy as np
 
 
-def image_text_transform(n_classes, vocab_size, max_length):
-    text_padding = padd_sentences(vocab_size, max_length)
+
+def label_text_embed_transform(args):
+    text_transform = convert2embed(args.text_embed, args.idx2tag, args.word_dim)
+    label_transform = multilabel2multihot(args.num_classes)
+    return label_transform, text_transform
+
+
+def convert2embed(text_embed, idx2tag, word_dim):
+    def target_transform(sentence):
+        embeddings = []
+        for s_tag_id in sentence:
+            s_tag = idx2tag[s_tag_id]
+            if s_tag in text_embed:
+                embeddings.append(text_embed[s_tag])
+
+        if len(embeddings) == 0:
+            avg_embedding = np.zeros(word_dim)
+        else:
+            avg_embedding = np.mean(np.array(embeddings), axis=0)
+        avg_embedding =torch.FloatTensor(avg_embedding)
+
+        return avg_embedding
+    return target_transform
+
+
+
+def label_text_transform(n_classes, vocab_size, max_length):
+    text_transform = padd_sentences(vocab_size, max_length)
     label_transform = multilabel2multihot(n_classes)
-    return label_transform, text_padding
+    return label_transform, text_transform
 
 def padd_sentences(vocab_size=1000, max_lengh=100):
     def target_transform(sentence):
@@ -46,7 +72,15 @@ def image_text_train(args):
     #FIXME:
     # annotation_file = annotation_file.format('train')
     image_information = loadpickle(args.train_file)
-    dataset = ImageTextRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_train_simple_transform(), target_transform=image_text_transform(args.num_classes, args.vocab_size, args.sent_len))
+    dataset = ImageTextRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_train_simple_transform(), target_transform=label_text_transform(args.num_classes, args.vocab_size, args.sent_len))
+    return dataset
+
+
+def image_textembed_train(args):
+    #FIXME:
+    # annotation_file = annotation_file.format('train')
+    image_information = loadpickle(args.train_file)
+    dataset = ImageTextRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_train_simple_transform(), target_transform=label_text_embed_transform(args))
     return dataset
 
 

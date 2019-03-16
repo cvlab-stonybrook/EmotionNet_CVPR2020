@@ -17,7 +17,7 @@ for s_tag in tag_counts:
     else:
         selected_tags[s_tag] = tag_counts[s_tag]
 print("DB")
-emotion_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl')
+emotion_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
 emotion2idx=  emotion_vocabulary['key2idx']
 for s_key in emotion2idx:
     if s_key not in selected_tags:

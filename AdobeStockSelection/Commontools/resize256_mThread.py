@@ -89,15 +89,15 @@ if __name__ == '__main__':
     # annotation_list = []
     max_idx = 0
     subdirectories = set()
-    src_path = '/home/zwei/datasets/PublicEmotion/UnBiasedEmo/images'
-    dst_path = '/home/zwei/datasets/PublicEmotion/UnBiasedEmo/images-256'
+    src_path = '/home/zwei/datasets/PublicEmotion/Advertisement/images'
+    dst_path = '/home/zwei/datasets/PublicEmotion/Advertisement/images-256'
 
     filenames = glob.glob(os.path.join(src_path, '**/*.jpg'), recursive=True)
 
     operating_files = []
     for s_filename in tqdm.tqdm(filenames):
         s_path_parts = s_filename.split(os.sep)
-        s_rel_path = s_path_parts[-3:]
+        s_rel_path = s_path_parts[-2:]
         s_dst_path = os.path.join(dst_path, *s_rel_path)
         subdirectories.add(os.path.dirname(s_dst_path))
         operating_files.append((s_filename, s_dst_path))

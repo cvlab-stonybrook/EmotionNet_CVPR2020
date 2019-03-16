@@ -16,7 +16,7 @@ from PyUtils.file_utils import get_file_dir
 def save_model(model, params):
     file_path = get_file_dir(params['save_path'])
 
-    saved_items = {"model": model, "tag2idx": params['tag2idx'], "idx2tag": params['idx2tag']}
+    saved_items = {"model": model}
     torch.save(saved_items, file_path)
     print("A model is saved successfully as {}!".format(file_path))
 

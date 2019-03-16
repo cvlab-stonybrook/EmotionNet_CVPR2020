@@ -13,7 +13,7 @@ split = 'val'
 previous_data = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/CNNsplit_{}.pkl'.format(split))
 previous_idx2key = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/tag-idx-conversion.pkl')['idx2key']
 
-current_key2idx = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_691/E_vocabulary.pkl')['key2idx']
+current_key2idx = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_691/Emotion_vocabulary.pkl')['key2idx']
 current_data = []
 
 current_category_counts = {}

@@ -32,7 +32,7 @@ from CNNs.utils.util import AverageMeter
 
 
 def test_690_contain(tag2idx):
-    emotion690_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl')
+    emotion690_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
     selected_emotion690 = emotion690_vocabulary['key2idx']
 
     all_found = True

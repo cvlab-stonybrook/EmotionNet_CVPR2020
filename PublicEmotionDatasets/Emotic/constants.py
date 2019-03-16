@@ -145,7 +145,7 @@ if __name__ == '__main__':
     from PyUtils.pickle_utils import loadpickle
 
     emotion_vocabulary = loadpickle(
-        '/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl')
+        '/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
     emotion_keys = emotion_vocabulary['key2idx']
     full_tag2idx = loadpickle('/home/zwei/Dev/AttributeNet3/TextClassification/visualizations/Embeddings/FullVocab_BN_transformed_l2_regularization.pkl')
 

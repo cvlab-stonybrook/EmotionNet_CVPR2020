@@ -12,3 +12,5 @@ __pycache__
 *.pl
 *.csv
 *.dat
+*.jpg
+*.png

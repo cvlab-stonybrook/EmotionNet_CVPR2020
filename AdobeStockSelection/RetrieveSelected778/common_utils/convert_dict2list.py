@@ -8,9 +8,9 @@
 from PyUtils.pickle_utils import loadpickle, save2pickle
 import tqdm, os
 from AdobeStockTools.AdobeStockUnitls import get_image_cid_from_url
-data_split = 'train'
+data_split = 'test'
 
-dataset_directory = '/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas'
+dataset_directory = '/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/tag_labels'
 image_annotations_dict = loadpickle(os.path.join(dataset_directory, 'CNNsplit_tag_labels_{}_dict.pkl'.format(data_split)))
 image_annotations = []
 for s_image_cid in tqdm.tqdm(image_annotations_dict, desc='converting image annotation list to dict'):

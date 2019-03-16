@@ -165,3 +165,12 @@ def unfreeze_all(model):
     # model.fc.weight.requires_grad = True
     # model.fc.bias.requires_grad = True
     return model
+
+
+def report_params(model, print_func=None):
+    model_total_params = sum(p.numel() for p in model.parameters())
+    model_grad_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    if print_func is None:
+        print("Total Parameters: {0}\t Gradient Parameters: {1}".format(model_total_params, model_grad_params))
+    else:
+        print_func("Total Parameters: {0}\t Gradient Parameters: {1}".format(model_total_params, model_grad_params))

@@ -8,7 +8,7 @@
 from PyUtils.pickle_utils import loadpickle, save2pickle
 import tqdm, os
 from AdobeStockTools.AdobeStockUnitls import get_image_cid_from_url
-data_split = 'train'
+data_split = 'test'
 
 dataset_directory = '/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas'
 image_annotations = loadpickle(os.path.join(dataset_directory, 'CNNsplit_key_labels_{}.pkl'.format(data_split)))

@@ -71,7 +71,7 @@ save2pickle('selected_list_rest_20000.pkl', annotation_data_list)
 #             else:
 #                 label_counts[s_label] = 1
 #
-# label_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl')
+# label_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
 # idx2key = label_vocabulary['idx2key']
 # label_counts = get_key_sorted_dict(label_counts)
 # for s_label in label_counts:

@@ -24,4 +24,4 @@ for s_keyword in keyword2idx:
 
 selected_words = sorted(selected_words)
 idx2key, key2idx = string_list2dict(selected_words)
-save2pickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl', {'key2idx': key2idx, 'idx2key': idx2key})
+save2pickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl', {'key2idx': key2idx, 'idx2key': idx2key})

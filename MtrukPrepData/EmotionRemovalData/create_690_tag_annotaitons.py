@@ -21,7 +21,7 @@ for s_item in selected_list:
 
 processed_cids = set()
 created_annotations = []
-keyword_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl')
+keyword_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
 key2idx = keyword_vocabulary['key2idx']
 
 tag_counts = {}

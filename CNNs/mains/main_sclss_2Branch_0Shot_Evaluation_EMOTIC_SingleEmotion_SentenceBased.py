@@ -3,6 +3,7 @@
 # Author: Zijun Wei
 # Usage(TODO): modified from https://github.com/pytorch/examples/blob/master/imagenet/main.py
 # TODO: this is modified from main_mclass_corss_entropy_v2.py
+# TODO: this is used to do 2 branch training with WordAveraging
 # Email: hzwzijun@gmail.com
 # Created: 07/Oct/2018 11:09
 import os, sys
@@ -153,7 +154,6 @@ def main():
     tag_matrix = []
     label_words = []
     label_matrix = []
-    from TextClassification.model_DAN_2constraints import CNN_Embed_v2 as CNN
     text_ckpt = torch.load('/home/zwei/Dev/AttributeNet3/TextClassification/models/model_feature_regularization.pth.tar')
     text_saved_model = text_ckpt['model']
     params = {

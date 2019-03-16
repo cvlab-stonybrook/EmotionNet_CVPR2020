@@ -12,7 +12,7 @@ from CNNs.models.resnet import load_state_dict
 from TextClassification.model_DAN import CNN_Word_Embed_BN, CNN_Word_Embed
 import tqdm
 
-emotion_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/E_vocabulary.pkl')
+emotion_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
 emotion_keys = emotion_vocabulary['key2idx']
 
 text_data = torch.load('/home/zwei/Dev/AttributeNet3/TextClassification/models/model_best.pth.tar')

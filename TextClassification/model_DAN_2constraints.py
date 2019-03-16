@@ -51,9 +51,9 @@ class Text_Transformation(nn.Module):
         self.FC_embed = nn.Linear(input_size, output_size)
         self.FC_cls = nn.Linear(output_size, cls_size)
     def forward(self, inp):
-        x =  self.FC(inp)
+        x = self.FC_embed(inp)
         x_cls = self.FC_cls(F.relu(x))
-        return x, x_cls
+        return  x_cls, x
 
 
 
