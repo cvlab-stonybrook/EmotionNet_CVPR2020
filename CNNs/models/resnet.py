@@ -370,7 +370,7 @@ def resnet34(pretrained=False, **kwargs):
 
 
 #TODO: this is the loosest model loader
-def load_state_dict(model, state_dict, exclude_layers=None):
+def load_state_dict(model, state_dict, exclude_layers=None, strict=False):
     own_state = model.state_dict()
     for name, param in own_state.items():
         if exclude_layers is not None:
@@ -406,7 +406,10 @@ def load_state_dict(model, state_dict, exclude_layers=None):
                 print('Not same size, Skipped -', name, own_state[name].size(), state_dict[module_name].size())
 
         else:
-            print('No matched module name, Skipped -', name)
+            if strict:
+                raise RuntimeError("No matched module name, Skipped")
+            else:
+                print('No matched module name, Skipped -', name)
 
 
 def resnet50(pretrained=False, **kwargs):
@@ -481,7 +484,7 @@ def load_ckpts(filename, model_dir=None, map_location=None, progress=True):
 
 
 
-def resnet50_feature_extractor(pretrained, param_name, **kwargs):
+def resnet50_feature_extractor(pretrained, param_name=None, **kwargs):
     """Constructs a ResNet-50 model.
 
     Args:

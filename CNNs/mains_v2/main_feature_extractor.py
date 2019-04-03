@@ -8,7 +8,7 @@ import os, sys
 project_root = os.path.join(os.path.expanduser('~'), 'Dev/AttributeNet3')
 sys.path.append(project_root)
 
-import argparse
+# import argparse
 import random
 import shutil
 import time
@@ -26,7 +26,6 @@ import torchvision.transforms as transforms
 import CNNs.dataloaders as datasets
 import CNNs.models as models
 import CNNs.utils.util as CNN_utils
-import CNNs.options.basic_parser as parser
 from CNNs.utils.logger import Logger
 import CNNs.losses as loss_funcs
 from torch.optim import lr_scheduler
@@ -36,39 +35,53 @@ from PyUtils.file_utils import get_date_str, get_dir, get_stem
 from PyUtils import log_utils
 import CNNs.datasets as custom_datasets
 from CNNs.utils.config import parse_config
-
+from CNNs.models.resnet import load_state_dict
+import torch.nn.functional as F
 model_names = sorted(name for name in models.__dict__
     if name.islower() and not name.startswith("__")
     and callable(models.__dict__[name]))
 
 
-def get_instance(module, name, args, **kwargs):
-    return getattr(module, name)(args, **kwargs)
+def get_instance(module, name, args):
+    return getattr(module, name)(args)
 
 
 def main():
+
+    import argparse
+    parser = argparse.ArgumentParser(description="Pytorch Image CNN training from Configure Files")
+    parser.add_argument('--config_file', required=True, help="This scripts only accepts parameters from Json files")
+    input_args = parser.parse_args()
+
+    config_file = input_args.config_file
+
+    args = parse_config(config_file)
+    if args.name is None:
+        args.name = get_stem(config_file)
+
+    torch.set_default_tensor_type('torch.FloatTensor')
     best_prec1 = 0
 
-    args = parser.parser.parse_args()
-    if args.config is not None:
-        args = parse_config(args.config)
-
-    script_name_stem = get_stem(__file__)
+    args.script_name = get_stem(__file__)
     current_time_str = get_date_str()
-
     if args.save_directory is None:
-        raise FileNotFoundError("Saving directory should be specified for feature extraction tasks")
-    save_directory = get_dir(args.save_directory)
+        save_directory = get_dir(os.path.join(project_root, args.ckpts_dir, '{:s}'.format(args.name), '{:s}-{:s}'.format(args.ID, current_time_str)))
+    else:
+        save_directory = get_dir(os.path.join(project_root, args.ckpts_dir, args.save_directory))
 
     print("Save to {}".format(save_directory))
     log_file = os.path.join(save_directory, 'log-{0}.txt'.format(current_time_str))
     logger = log_utils.get_logger(log_file)
     log_utils.print_config(vars(args), logger)
+
+
     print_func = logger.info
+    print_func('ConfigFile: {}'.format(config_file))
     args.log_file = log_file
 
     if args.device:
         os.environ["CUDA_VISIBLE_DEVICES"]=args.device
+
 
     if args.seed is not None:
         random.seed(args.seed)
@@ -81,7 +94,8 @@ def main():
                       'from checkpoints.')
 
     if args.gpu is not None:
-        warnings.warn('You have chosen a specific GPU. This will completely disable data parallelism.')
+        warnings.warn('You have chosen a specific GPU. This will completely '
+                      'disable data parallelism.')
 
     args.distributed = args.world_size > 1
 
@@ -89,23 +103,55 @@ def main():
         dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
                                 world_size=args.world_size)
 
-
-    if args.arch == 'resnet50_feature_extractor':
-        print_func("=> using pre-trained model '{}' to LOAD FEATURES".format(args.arch))
-        model = models.__dict__[args.arch](pretrained=True, num_classes=args.num_classes, param_name=args.paramname)
-
+    if args.pretrained:
+        print_func("=> using pre-trained model '{}'".format(args.arch))
+        model = models.__dict__[args.arch](pretrained=True, num_classes=args.num_classes)
     else:
-        print_func("This is only for feature extractors!, Please double check the parameters!")
-        return
+        print_func("=> creating model '{}'".format(args.arch))
+        model = models.__dict__[args.arch](pretrained=False, num_classes=args.num_classes)
 
-    # if args.freeze:
-    #     model = CNN_utils.freeze_all_except_fc(model)
+    if args.freeze:
+        model = CNN_utils.freeze_all_except_fc(model)
 
     if args.gpu is not None:
         model = model.cuda(args.gpu)
+    elif args.distributed:
+        model.cuda()
+        model = torch.nn.parallel.DistributedDataParallel(model)
     else:
         print_func('Please only specify one GPU since we are working in batch size 1 model')
         return
+
+
+    if args.resume:
+        if os.path.isfile(args.resume):
+            print_func("=> loading checkpoint '{}'".format(args.resume))
+            checkpoint = torch.load(args.resume)
+            import collections
+            if not args.evaluate:
+                if isinstance(checkpoint, collections.OrderedDict):
+                    load_state_dict(model, checkpoint, exclude_layers=['fc.weight', 'fc.bias'])
+
+
+                else:
+                    load_state_dict(model, checkpoint['state_dict'], exclude_layers=['module.fc.weight', 'module.fc.bias'])
+                    print_func("=> loaded checkpoint '{}' (epoch {})"
+                          .format(args.resume, checkpoint['epoch']))
+            else:
+                if isinstance(checkpoint, collections.OrderedDict):
+                    load_state_dict(model, checkpoint,strict=True)
+
+
+                else:
+                    load_state_dict(model, checkpoint['state_dict'],strict=True)
+                    print_func("=> loaded checkpoint '{}' (epoch {})"
+                               .format(args.resume, checkpoint['epoch']))
+        else:
+            print_func("=> no checkpoint found at '{}'".format(args.resume))
+            return
+    else:
+        print_func("=> This script is for fine-tuning only, please double check '{}'".format(args.resume))
+        print_func("Now using randomly initialized parameters!")
 
     cudnn.benchmark = True
 
@@ -114,7 +160,14 @@ def main():
     print_func("Total Parameters: {0}\t Gradient Parameters: {1}".format(model_total_params, model_grad_params))
 
     # Data loading code
-    val_dataset = get_instance(custom_datasets, '{0}'.format(args.dataset.name), args, **args.dataset.args)
+    # val_dataset = get_instance(custom_datasets, '{0}'.format(args.valloader), args)
+    from PyUtils.pickle_utils import loadpickle
+    from torchvision.datasets.folder import default_loader
+
+    val_dataset = loadpickle(args.val_file)
+    image_directory = args.data_dir
+    from CNNs.datasets.multilabel import get_val_simple_transform
+    val_transform = get_val_simple_transform()
     import tqdm
     import numpy as np
 
@@ -126,28 +179,41 @@ def main():
         feature_save_directory = os.path.join(save_directory, 'feature.pkl')
 
     model.eval()
+
     for s_data in tqdm.tqdm(val_dataset, desc="Extracting Features"):
         if s_data is None:
             continue
-        s_image_name = s_data[1]
-        s_image_data = s_data[0]
-        if args.gpu is not None:
-            s_image_data = s_image_data.cuda(args.gpu, non_blocking=True)
 
-        output = model(s_image_data.unsqueeze_(0))
+
+
+        image_path = os.path.join(image_directory, s_data[0])
+
+        try:
+            input_image = default_loader(image_path)
+        except:
+            print("WARN: {} Problematic!, Skip!".format(image_path))
+
+            continue
+
+        input_image = val_transform(input_image)
+
+
+        if args.gpu is not None:
+            input_image = input_image.cuda(args.gpu, non_blocking=True)
+
+        output = model(input_image.unsqueeze_(0))
         output = output.cpu().data.numpy()
-        image_rel_path = os.path.join(*(s_image_name.split(os.sep)[-args.rel_path_depth:]))
+        # image_rel_path = os.path.join(*(s_image_name.split(os.sep)[-int(args.rel_path_depth):]))
 
         if args.individual_feat:
-            image_directory = os.path.dirname(image_rel_path)
             if image_directory in created_paths:
-                np.save(os.path.join(feature_save_directory, '{}.npy'.format(image_rel_path)), output)
+                np.save(os.path.join(feature_save_directory, '{}.npy'.format(s_data[0])), output)
             else:
                 get_dir(os.path.join(feature_save_directory, image_directory))
-                np.save(os.path.join(feature_save_directory, '{}.npy'.format(image_rel_path)), output)
+                np.save(os.path.join(feature_save_directory, '{}.npy'.format(s_data[0])), output)
                 created_paths.add(image_directory)
         else:
-            data_dict[image_rel_path] = output
+            data_dict[s_data[0]] = output
         # image_name = os.path.basename(s_image_name)
         #
         # if args.individual_feat:

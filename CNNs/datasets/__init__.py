@@ -10,3 +10,4 @@
 from .general_feature_extractor import *
 from .multilabel import *
 from .image_text import *
+from .categorical_sampler import *

@@ -89,23 +89,24 @@ if __name__ == '__main__':
     # annotation_list = []
     max_idx = 0
     subdirectories = set()
-    src_path = '/home/zwei/datasets/PublicEmotion/Advertisement/images'
-    dst_path = '/home/zwei/datasets/PublicEmotion/Advertisement/images-256'
-
-    filenames = glob.glob(os.path.join(src_path, '**/*.jpg'), recursive=True)
+    src_path = '/mnt/ilcompf5d1/user/jianmzha/datasets/AffectNet/Manually_Annotated_compressed/Manually_Annotated_Images'
+    dst_path = '/mnt/ilcompf5d1/user/jianmzha/datasets/AffectNet/Manually_Annotated_compressed/Manually_Annotated_Images_256'
+    print("Loading file names, this may take a while")
+    filenames = glob.glob(os.path.join(src_path, '**/*'), recursive=True)
 
     operating_files = []
-    for s_filename in tqdm.tqdm(filenames):
+    for s_idx, s_filename in tqdm.tqdm(enumerate(filenames)):
         s_path_parts = s_filename.split(os.sep)
         s_rel_path = s_path_parts[-2:]
         s_dst_path = os.path.join(dst_path, *s_rel_path)
         subdirectories.add(os.path.dirname(s_dst_path))
         operating_files.append((s_filename, s_dst_path))
-
+        # if s_idx % 10000 == 0:
+        #     print('{} to {}, subdir: {}'.format(s_filename, s_dst_path, os.path.basename(s_dst_path)))
     print("Create Directories")
     subdirectories = list(subdirectories)
     for s_subdir in tqdm.tqdm(subdirectories, desc="Creating Directories"):
-        get_dir(os.path.join(dst_path, s_subdir))
+        get_dir(s_subdir)
 
     from multiprocessing import Pool
 
