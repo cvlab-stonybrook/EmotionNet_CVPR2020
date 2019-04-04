@@ -45,20 +45,21 @@ def crop_image(src_file, target_file, coordinate ):
 dataset_directory = '/home/zwei/datasets/PublicEmotion/EMOTIC'
 
 original_image_directory = os.path.join(dataset_directory, 'images')
-target_image_directory = get_dir(os.path.join(dataset_directory, 'images_face_crop'))
+target_image_directory = get_dir(os.path.join(dataset_directory, 'images_person_crop'))
 
 
-data_split = 'train'
-annotation_file = os.path.join(dataset_directory, 'z_data', '{}_person_based.pkl'.format(data_split))
+data_split = 'test'
+annotation_file = os.path.join(dataset_directory, 'new_z_data', '{}_person_crop.pkl'.format(data_split))
 
 
 raw_annotation_list = loadpickle(annotation_file)
 
-
+from PyUtils.file_utils import get_stem, get_extension
 for s_annotation in tqdm.tqdm(raw_annotation_list, desc="Processing data"):
     s_target_file = s_annotation[0]
     s_bbox = s_annotation[-1]
-    s_original_file_path = os.path.join(original_image_directory, '{}.jpg'.format(s_target_file[:-8]))
+    s_file_ext = get_extension(s_target_file)
+    s_original_file_path = os.path.join(original_image_directory, '{}.{}'.format(s_target_file[:-8],s_file_ext))
     s_target_file_path = os.path.join(target_image_directory, s_target_file)
     get_file_dir(s_target_file_path)
     if os.path.exists(s_original_file_path):

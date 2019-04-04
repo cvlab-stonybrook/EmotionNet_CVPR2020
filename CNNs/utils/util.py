@@ -132,6 +132,21 @@ def accuracy_multihots(output, target, topk=(1,)):
         return res
 
 
+def accuracy_top1(output, target, topk=(1,)):
+    """Computes the accuracy over the k top predictions for the specified values of k"""
+    with torch.no_grad():
+        # maxk = max(topk)
+        batch_size = target.size(0)
+        _, target_tops = target.topk(1, 1, True, True)
+        _, pred = output.topk(1, 1, True, True)
+
+
+        correct_k = (target_tops == pred).float().sum(0, keepdim=False)
+        res = (correct_k.mul_(100.0 / batch_size))
+        return res
+
+
+
 def freeze_all_except_fc(model):
     def dfs_freeze(model):
         for name, child in model.named_children():

@@ -48,3 +48,8 @@ def get_stem(file_path):
     basename = os.path.basename(file_path)
     stem = os.path.splitext(basename)[0]
     return stem
+
+def get_extension(file_path):
+    basename = os.path.basename(file_path)
+    ext = basename.split('.')[-1]
+    return ext

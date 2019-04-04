@@ -13,6 +13,13 @@ from CNNs.dataloaders.transformations import *
 from PyUtils.pickle_utils import loadpickle
 import numpy as np
 
+
+def simple_multitrans():
+    def target_transform(label_list):
+
+        return torch.FloatTensor(np.array(label_list))
+    return target_transform
+
 def multilabel2multihot(n_classes=500):
     def target_transform(label_list):
         label_vector = np.zeros(n_classes, dtype=np.float)
@@ -32,6 +39,30 @@ def multilabel2multi1(n_classes=500):
     return target_transform
 
 
+def multilabelidxcount2multihot(n_classes=500):
+    def target_transform(label_list):
+        label_vector = np.zeros(n_classes, dtype=np.float)
+        for s_label in label_list:
+            label_vector[s_label[0]] = s_label[1]
+        if np.sum(label_vector) == 0:
+            label_vector = label_vector
+        else:
+            label_vector /= np.sum(label_vector)*1.0
+        return torch.FloatTensor(label_vector)
+    return target_transform
+
+
+
+
+def multilabel_idxcount_v2_train(args):
+    image_information = loadpickle(args.train_file)
+    dataset = ImageRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_train_simple_transform(), target_transform=multilabelidxcount2multihot(args.num_classes))
+    return dataset
+
+def multilabel_idxcount_v2_val(args):
+    image_information = loadpickle(args.val_file)
+    dataset = ImageRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_val_simple_transform(), target_transform=multilabelidxcount2multihot(args.num_classes))
+    return dataset
 
 
 def multilabel_v2_train(args):
@@ -42,11 +73,28 @@ def multilabel_v2_train(args):
     return dataset
 
 
+
+
 def multilabel_v2_val(args):
     #FIXME:
     # annotation_file = annotation_file.format('val')
     image_information = loadpickle(args.val_file)
     dataset = ImageRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_val_simple_transform(), target_transform=multilabel2multihot(args.num_classes))
+    return dataset
+
+
+def simple_multilabel_train(args):
+    #FIXME:
+    # annotation_file = annotation_file.format('train')
+    image_information = loadpickle(args.train_file)
+    dataset = ImageRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_train_simple_transform(), target_transform=simple_multitrans())
+    return dataset
+
+def simple_multilabel_val(args):
+    #FIXME:
+    # annotation_file = annotation_file.format('train')
+    image_information = loadpickle(args.val_file)
+    dataset = ImageRelLists(image_paths=image_information, image_root=args.data_dir, transform=get_val_simple_transform(), target_transform=simple_multitrans())
     return dataset
 
 

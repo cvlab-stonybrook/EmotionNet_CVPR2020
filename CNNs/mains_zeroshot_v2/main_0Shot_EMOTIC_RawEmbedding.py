@@ -56,10 +56,10 @@ def main():
         args.name = get_stem(config_file)
 
     torch.set_default_tensor_type('torch.FloatTensor')
-    best_prec1 = 0
+    # best_prec1 = 0
 
     args.script_name = get_stem(__file__)
-    current_time_str = get_date_str()
+    # current_time_str = get_date_str()
 
 
 
@@ -111,29 +111,30 @@ def main():
             model.features = torch.nn.DataParallel(model.features)
             model.cuda()
         else:
-            # model = torch.nn.DataParallel(model).cuda()
-            model = model.cuda()
+            model = torch.nn.DataParallel(model).cuda()
+            # model = model.cuda()
 
 
 
-    if args.resume:
-        if os.path.isfile(args.resume):
-            print_func("=> loading checkpoint '{}'".format(args.resume))
-            checkpoint = torch.load(args.resume)
-            import collections
-            if isinstance(checkpoint, collections.OrderedDict):
-                load_state_dict(model, checkpoint, exclude_layers=['fc.weight', 'fc.bias'])
-
-
-            else:
-                load_state_dict(model, checkpoint['state_dict'], exclude_layers=['module.fc.weight', 'module.fc.bias'])
-                print_func("=> loaded checkpoint '{}' (epoch {})"
-                      .format(args.resume, checkpoint['epoch']))
+    if args.visual_model:
+        if os.path.isfile(args.visual_model):
+            print_func("=> loading checkpoint '{}'".format(args.visual_model))
+            checkpoint = torch.load(args.visual_model)
+            model.load_state_dict(checkpoint['state_dict'], strict=True)
+            # import collections
+            # if isinstance(checkpoint, collections.OrderedDict):
+            #     load_state_dict(model, checkpoint, exclude_layers=['fc.weight', 'fc.bias'])
+            #
+            #
+            # else:
+            #     load_state_dict(model, checkpoint['state_dict'], exclude_layers=['module.fc.weight', 'module.fc.bias'])
+            #     print_func("=> loaded checkpoint '{}' (epoch {})"
+            #           .format(args.visual_model, checkpoint['epoch']))
         else:
-            print_func("=> no checkpoint found at '{}'".format(args.resume))
+            print_func("=> no checkpoint found at '{}'".format(args.visual_model))
             return
     else:
-        print_func("=> This script is for fine-tuning only, please double check '{}'".format(args.resume))
+        print_func("=> This script is for fine-tuning only, please double check '{}'".format(args.visual_model))
         print_func("Now using randomly initialized parameters!")
 
     cudnn.benchmark = True
@@ -142,12 +143,14 @@ def main():
 
 
     from PyUtils.pickle_utils import loadpickle
+
     import numpy as np
     from PublicEmotionDatasets.Emotic.constants import emotion_full_words_690 as emotion_self_words
+
     from torchvision.datasets.folder import default_loader
-    tag_wordvectors = loadpickle('/home/zwei/Dev/AttributeNet3/TextClassification/visualizations/Embeddings/FullVocab_BN_transformed_l2_regularization.pkl')
+    tag_wordvectors = loadpickle(args.text_embed)
 
-
+    print_func(" => loading word2vec parameters: {}".format(args.text_embed))
 
 
 
@@ -155,41 +158,35 @@ def main():
 
     for x_key in emotion_self_words:
         x_words = emotion_self_words[x_key].split(',')
-        tag_matrix = []
-        for x_word in x_words:
-            tag_matrix.append(tag_wordvectors[x_word])
+        x_feature = [tag_wordvectors[x] for x in x_words]
 
-        tag_matrix = np.array(tag_matrix)
-        tag_matrix = tag_matrix.squeeze(1)
         item = {}
         item ['pred'] = []
         item ['label'] = []
-        item ['target_matrix'] = tag_matrix
+        item ['target_matrix'] = np.array(x_feature)
         item ['description'] = x_words
         emotic_emotion_explaintations[x_key] = item
 
-    val_list = loadpickle('/home/zwei/datasets/PublicEmotion/EMOTIC/new_z_data/test_person_crop.pkl')
-    image_directory = '/home/zwei/datasets/PublicEmotion/EMOTIC/images_person_crop'
+    val_list = loadpickle(args.val_file)
+    image_directory = args.data_dir
     from CNNs.datasets.multilabel import get_val_simple_transform
     val_transform = get_val_simple_transform()
     model.eval()
 
-
     import tqdm
-    for i, (input_image_file, target, _, _) in tqdm.tqdm(enumerate(val_list), desc="Evaluating Peace", total=len(val_list)):
+    for i, (input_image_file, target, _, _) in tqdm.tqdm(enumerate(val_list), desc="Evaluating Peace",
+                                                         total=len(val_list)):
         # measure data loading time
 
         image_path = os.path.join(image_directory, input_image_file)
         input_image = default_loader(image_path)
         input_image = val_transform(input_image)
 
-
         if args.gpu is not None:
             input_image = input_image.cuda(args.gpu, non_blocking=True)
         input_image = input_image.unsqueeze(0).cuda()
 
         # target_idx = target.nonzero() [:,1]
-
 
         # compute output
         output, output_proj = model(input_image)
@@ -202,11 +199,10 @@ def main():
             dot_product_label = cosine_similarity(output_proj, emotic_emotion_explaintations[x_key]['target_matrix'])[0]
             pred_score = np.average(dot_product_label)
             emotic_emotion_explaintations[x_key]['pred'].append(pred_score)
-            if x_key in  target_labels:
+            if x_key in target_labels:
                 emotic_emotion_explaintations[x_key]['label'].append(1)
             else:
                 emotic_emotion_explaintations[x_key]['label'].append(0)
-
 
     from sklearn.metrics import average_precision_score
     full_AP = []
@@ -218,20 +214,13 @@ def main():
             print("{} is Nan".format(x_key))
             continue
         full_AP.append(AP)
-        print("{}\t{:.4f}".format(x_key, AP*100))
+        print("{}\t{:.4f}".format(x_key, AP * 100))
     AvgAP = np.mean(full_AP)
-    print("Avg AP: {:.2f}".format(AvgAP*100))
+    print("Avg AP: {:.2f}".format(AvgAP * 100))
 
-
-        # print("* {} Image: {} GT label: {}, predicted label: {}".format(i, input_image_file, idx2emotion[target], idx2label[output_label]))
+    # print("* {} Image: {} GT label: {}, predicted label: {}".format(i, input_image_file, idx2emotion[target], idx2label[output_label]))
         # print(" == closest tags: {}".format(', '.join(['{}({:.02f})'.format(idx2tag[x], dot_product_tag[x]) for x in out_tags])))
     # print("Accuracy {:.4f}".format(correct/total))
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

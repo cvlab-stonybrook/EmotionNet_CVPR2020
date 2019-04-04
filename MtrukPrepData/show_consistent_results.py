@@ -45,9 +45,9 @@ def has_x_agrees(emotion_list, x):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument('--image_results_file', default='/home/zwei/Dev/AttributeNet3/MtrukPrepData/EmotionTagging_100x10x5_v0/data/results_imagebased.txt.pkl',
+    parser.add_argument('--image_results_file', default='/home/zwei/Dev/AttributeNet3/MturkCollectedData/results_imagebased/results_imagebased.txt_v3.pkl',
                         help="Provide then name of the image reuslt file.")
-    parser.add_argument('--agree', type=int, default=3, help='minimal number of agrees')
+    parser.add_argument('--agree', type=int, default=2, help='minimal number of agrees')
     args = parser.parse_args()
 
     image_results = loadpickle(args.image_results_file)
