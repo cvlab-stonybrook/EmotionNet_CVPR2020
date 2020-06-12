@@ -1,9 +1,15 @@
 # Learning Visual Emotion Representations From Web Data	
 
 
+
 By Zijun Wei, Jianming Zhang, Zhe Lin, Joon-Young Lee, Niranjan Balasubramanian, Minh Hoai, Dimitris Samaras
 
 
+**in progress**
+
+-[ ] simplify evaluation code;
+-[ ] rename trained models
+-[ ] remove non-core code blocks
 
 ## Introduction:
 
