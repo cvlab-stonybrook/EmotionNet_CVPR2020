@@ -5,7 +5,7 @@
 *.gif
 *.pkl
 ckpts/
-*.json
+#*.json
 *.txt
 *.pyc
 __pycache__

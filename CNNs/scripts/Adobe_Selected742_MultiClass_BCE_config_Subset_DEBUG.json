@@ -1,0 +1,36 @@
+{
+    "name": "Adobe_Selected742_MultiClass_BCE_Subset_DEBUG",
+    "arch": "resnet50",
+    "paramname": null,
+    "workers": 12,
+    "epochs": 30,
+    "start_epoch": 0,
+    "batch_size": 128,
+    "lr": 0.001,
+    "lr_schedule": "10, 20, 30",
+    "momentum": 0.9,
+    "weight_decay": 0.00001,
+    "print_freq": 50,
+    "resume": null,
+    "evaluate": null,
+    "pretrained":true,
+    "num_classes": 10,
+    "freeze": false,
+    "world_size": 1,
+    "dist_url": "tcp://224.66.41.62:23456",
+    "dist_backend": "gloo",
+    "seed": null,
+    "gpu": null,
+    "ID": "v1",
+    "device": null,
+    "save_directory": null,
+    "dataset": {
+        "name": "multilabel_BCE",
+        "args":{
+            "data_dir": "/mnt/ssd/tmp/zwei/stockimage742/images-256",
+            "annotation_file": "/mnt/ilcompf7d1/user/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/debug_subset_10/CNNsplit_{}.pkl"
+        }
+    }
+
+
+}
