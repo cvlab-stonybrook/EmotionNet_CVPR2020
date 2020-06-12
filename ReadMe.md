@@ -7,9 +7,9 @@ By Zijun Wei, Jianming Zhang, Zhe Lin, Joon-Young Lee, Niranjan Balasubramanian,
 
 **in progress**
 
--[ ] simplify evaluation code;
--[ ] rename trained models
--[ ] remove non-core code blocks
+- [ ] simplify evaluation code;
+- [ ] rename trained models
+- [ ] remove non-core code blocks
 
 ## Introduction:
 
