@@ -10,7 +10,7 @@ import tqdm
 import os
 from PyUtils.dict_utils import get_value_sorted_dict
 train_data = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/CNNsplit_tag_labels+full_tagidx_train+face.pkl')
-emotion_dicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/Emotion_vocabulary.pkl')
+emotion_dicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/etag2idx.pkl')
 idx2emotion = emotion_dicts['idx2key']
 number_of_emotion_tags = 0
 number_of_complete_tags = 0

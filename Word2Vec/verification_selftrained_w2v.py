@@ -11,7 +11,7 @@ import gensim
 import os
 
 
-anchor_annotations  = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
+anchor_annotations  = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/etag2idx.pkl')
 anchor_data = anchor_annotations['key2idx']
 anchor_words = list(anchor_data.keys())
 anchor_word_set = set(anchor_words)

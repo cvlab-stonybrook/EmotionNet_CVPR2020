@@ -154,7 +154,7 @@ if __name__ == '__main__':
     import tqdm
 
     args = Namespace(num_classes=690, vocab_size=1000, sent_len=100, text_ckpt="/home/zwei/Dev/AttributeNet3/TextClassificationV2/ckpts/TextCNN_googlenews_690Removed_NLTDAN_1M_Static.pth.tar",
-                     idx2tag='/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/vocab_dict.pkl',
+                     idx2tag='/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/tag2idx.pkl',
                      text_embed='/home/zwei/Dev/AttributeNet3/LanguageData/word2vec_dicts/googlenews_S_w2v_dict.pl',
                      train_file="/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/CNNsplit_tag_labels+full_tagidx_train+face.pkl",
                      data_dir="/home/zwei/datasets/stockimage_742/images-256")

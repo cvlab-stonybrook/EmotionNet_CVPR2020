@@ -32,7 +32,7 @@ import shutil
 from PyUtils.file_utils import get_file_dir
 # FIXME: update this later!
 def ifContainCoreWords(tag2idx):
-    emotion690_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/Emotion_vocabulary.pkl')
+    emotion690_vocabulary = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v6_690_xmas/etag2idx.pkl')
     selected_emotion690 = emotion690_vocabulary['key2idx']
 
     all_found = True

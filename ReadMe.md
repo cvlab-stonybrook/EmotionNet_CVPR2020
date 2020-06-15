@@ -7,9 +7,6 @@ By Zijun Wei, Jianming Zhang, Zhe Lin, Joon-Young Lee, Niranjan Balasubramanian,
 
 **in progress**
 
-- [ ] simplify evaluation code;
-- [ ] rename trained models
-- [ ] remove non-core code blocks
 
 ## Introduction:
 
@@ -25,7 +22,7 @@ pytorch 1.0/0.4
 tqdm
 ```
 
-### Code structure & how to train a model:
+### Code structure & how to train or evaluate a model:
 
 the main entrance code is in `CNNs/mains`. basically all of the files in this directory are similar to each other. You can modify your own following 
 `CNNs/mains/main_mclss_cross_entropy_v2.py`
@@ -56,8 +53,18 @@ fine-tuned models (with all layers fixed except FC) on benchmark datasets:
 
 ## Datasets:
 
-Please email `hzwzijun@gmail.com` for access
 
+
+### StockEmotion Full Dataset
+
+
+### SE30K8:
+
+See `Dataset_release/SE30K8/ReadMe.md` for details
+
+### StockEmotion
+
+See `Dataset_release/StockEmotion/ReadMe.md` for details
 
 ## Citations:
 

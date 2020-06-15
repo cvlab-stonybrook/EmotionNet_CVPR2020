@@ -35,7 +35,7 @@ def read_690_complete_mtrain_mtest(data_path=None, subset_N=None):
         data_path = os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/CNNsplit_tag_labels+full_tagidx_train+face.pkl')
     annotated_data = loadpickle(data_path)
 
-    idx2tag = loadpickle(os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/vocab_dict.pkl'))['idx2tag']
+    idx2tag = loadpickle(os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/tag2idx.pkl'))['idx2tag']
     # predefined_vocabularies = loadpickle('/home/zwei/Dev/AttributeNet3/TextClassification/pre_extract_w2v/params/selftrained_extracted_w2v_wordnet_synsets_py3.pl')
 
     data = []
@@ -68,8 +68,8 @@ def read_690_complete_mtrain_mtest_wo_emotion(data_path=None, subset_N=None):
     if data_path is None:
         data_path = os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/CNNsplit_tag_labels+full_tagidx_train+face.pkl')
     annotated_data = loadpickle(data_path)
-    emotion2idx = loadpickle(os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/Emotion_vocabulary.pkl'))['key2idx']
-    idx2tag = loadpickle(os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/vocab_dict.pkl'))['idx2tag']
+    emotion2idx = loadpickle(os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/etag2idx.pkl'))['key2idx']
+    idx2tag = loadpickle(os.path.join(project_root, 'AdobeStockSelection/EmotionNetFinal/tag2idx.pkl'))['idx2tag']
     # predefined_vocabularies = loadpickle('/home/zwei/Dev/AttributeNet3/TextClassification/pre_extract_w2v/params/selftrained_extracted_w2v_wordnet_synsets_py3.pl')
 
     data = []

@@ -10,7 +10,7 @@ from PyUtils.pickle_utils import loadpickle, save2pickle
 from AdobeStockTools.AdobeStockUnitls import get_image_cid_from_url
 import os
 
-emotion_dicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/Emotion_vocabulary.pkl')
+emotion_dicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/etag2idx.pkl')
 emotion2idx = emotion_dicts['key2idx']
 idx2emotion = emotion_dicts['idx2key']
 
@@ -19,7 +19,7 @@ image_data = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/Emotio
 specific_catgory = "stressed"
 image_cid2url = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/other/dataset_image_urls.pkl')
 
-tag_dicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/vocab_dict.pkl')
+tag_dicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/tag2idx.pkl')
 idx2tag = tag_dicts['idx2tag']
 import tqdm
 print("{}".format(specific_catgory))

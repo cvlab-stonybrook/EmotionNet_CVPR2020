@@ -57,10 +57,10 @@ def main():
     text_model = TextCNN(args_model)
     model_tag2idx = args_data.tag2idx
     text_model.load_state_dict(text_ckpt['state_dict'], strict=True)
-    vocab_idx2tag = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/vocab_dict.pkl')['idx2tag']
+    vocab_idx2tag = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/tag2idx.pkl')['idx2tag']
     dataset = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/CNNsplit_tag_labels+full_tagidx_train+face.pkl')
     text_model.eval()
-    emotion_tags = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/Emotion_vocabulary.pkl')['key2idx']
+    emotion_tags = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/etag2idx.pkl')['key2idx']
 
     image_url_dict = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/RetrieveSelected778/data_v2/dataset_image_urls.pkl')
 

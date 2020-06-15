@@ -7,7 +7,7 @@
 
 from PyUtils.pickle_utils import loadpickle
 
-keydicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/Emotion_vocabulary.pkl')
+keydicts = loadpickle('/home/zwei/Dev/AttributeNet3/AdobeStockSelection/EmotionNetFinal/etag2idx.pkl')
 
 key2idx = keydicts['key2idx']
 
