@@ -7,7 +7,8 @@ The StockEmotion Dataset contains
 
 ### tag, emotion tag and classification category ids
 
-See `tag2idx.pkl`, `etag2idx.pkl` in  [here](`Dataset_release/StockEmotion/idx2name`) for converting tag (emotion tag
+See `tag2idx.pkl`, `etag2idx.pkl` in  `Dataset_release/StockEmotion/idx2name`)
+ for converting tag (emotion tag
 ) into integer category ids.
 
 

@@ -49,7 +49,7 @@ you have two options:
 
 1. Download from Stony Brook Computer Vision Lab (Updated soon)
 
-2. (For preview purpose only) Use URLs provided in the annotation file: `annotations/mturk_annotations_240.pkl.keep'
+2. (For preview purpose only) Use URLs provided in the annotation file: `annotations/mturk_annotations_240.pkl.keep`
 
 ## More information
 
