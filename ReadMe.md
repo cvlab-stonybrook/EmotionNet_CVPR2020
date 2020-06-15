@@ -27,7 +27,7 @@ tqdm
 the main entrance code is in `CNNs/mains`. basically all of the files in this directory are similar to each other. You can modify your own following 
 `CNNs/mains/main_mclss_cross_entropy_v2.py`
 
-To train a model, you need to following
+#### train a model
 
 1. a script defining the parameters (saved in `scripts`) if you're training a mutliple-label classification problem, please refer to `Adobe_Selected690_MultiClass_CrossEntropy_tag_based_config.json`
 2. The main entrance code is defined in mains. Please refer to mains/main_mclss_cross_entropy_v2.py for reference
@@ -37,6 +37,10 @@ to execute the file you can jump into the mains directory do something like:
 ```shell script
 python main_mclass_cross_entropy_v2.py --config_file ../scripts/[your config file]
 ```
+
+#### evaluate a model:
+
+the same as training a model, modify the config file to set the corresponding parameters
 
 ## Trained Models:
 
