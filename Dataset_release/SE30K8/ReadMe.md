@@ -49,7 +49,7 @@ you have two options:
 
 1. Download from Stony Brook Computer Vision Lab (Updated soon)
 
-2. (For preview purpose only) Use URLs provided in the [annotation file](Dataset_release/SE30K8/annotations/mturk_annotations_240.pkl.keep)
+2. (For preview purpose only) Use URLs provided in the [annotation file](annotations/mturk_annotations_240.pkl.keep)
 
 ## More information
 
@@ -63,4 +63,4 @@ As each image comes with raw tags and emotion-related tags, you may need the tag
 
 * etag2tagidx.pkl: convert emotion tags to their raw-tag ids
  
-For more information, check the [StockEmotion Dataset](Dataset_release/StockEmotion/ReadMe.md)
+For more information, check the [StockEmotion Dataset](../StockEmotion/ReadMe.md)
