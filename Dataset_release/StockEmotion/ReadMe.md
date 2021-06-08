@@ -25,7 +25,7 @@ In this file each image is associated with a list of tags, you can create its ta
 
 you have two options: 
 
-1. Download from Stony Brook Computer Vision Lab here: vision.cs.stonybrook.edu/~soura/EmotionNet_dataset.gz
+1. Download from Stony Brook Computer Vision Lab here: http://vision.cs.stonybrook.edu/~soura/EmotionNet_dataset.gz
 
 2. (For preview purpose only) Use URLs provided in the [annotation file](https://drive.google.com/file/d/12DIhjzVFDlljEDjnqpp97LtkFIh9pjkc/view?usp=sharing). Please send an email to the author to get access permission
 
