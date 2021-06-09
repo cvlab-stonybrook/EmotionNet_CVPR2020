@@ -23,10 +23,10 @@ In this file each image is associated with a list of tags, you can create its ta
 
 ### Accessing the images 
 
-you have two options: 
+You have two options: 
 
 1. Please send an email to souchakrabor@cs.stonybrook.edu to get access to the dataset.
 
-2. (For preview purpose only) Use URLs provided in the [annotation file](https://drive.google.com/file/d/12DIhjzVFDlljEDjnqpp97LtkFIh9pjkc/view?usp=sharing). Please send an email to the author to get access permission
+2. (For preview purpose only) Use URLs provided in the [annotation file](https://drive.google.com/file/d/12DIhjzVFDlljEDjnqpp97LtkFIh9pjkc/view?usp=sharing). Please send an email to the author to get access permission.
 
 
